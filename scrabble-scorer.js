@@ -34,10 +34,19 @@ function oldScrabbleScorer(word) {
 
 function initialPrompt() {
    console.log("Let's play some Scrabble!" + "\n");
-   return input.question("Enter a word to score: ");
+   let word;
+   while(true){
+      word = input.question("Enter a word to score: ");
+      if(/^[a-zA-Z\s-, ]+$/.test(word)){
+         return word;
+      } else {
+         console.log('Invalid entry. Enter a word to score: ')
+      }
+   }
 };
 
 let newPointStructure = transform(oldPointStructure);
+newPointStructure[' '] = 0;
 
 let simpleScorer = (word) => word.length;
 
@@ -92,9 +101,16 @@ function scorerPrompt() {
    for(let i = 0; i < scoringAlgorithms.length; i++){
       console.log(`${i} - ${scoringAlgorithms[i].name}: ${scoringAlgorithms[i].description}`);
    }
-   let userChoice = input.question('Enter 0, 1, or 2: ');
 
-   return scoringAlgorithms[userChoice];
+   let userChoice;
+   while(true){
+      userChoice = input.question('Enter 0, 1, or 2: ');
+      if(userChoice === '0' || userChoice === '1' || userChoice === '2'){
+         return scoringAlgorithms[userChoice];
+      } else {
+         console.log('Invalid entry. Enter 0, 1, or 2');
+      }
+   }
 }
 
 function transform(oldPointStructure) {
